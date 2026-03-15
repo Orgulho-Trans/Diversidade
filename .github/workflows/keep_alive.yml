@@ -1,0 +1,17 @@
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    # Isso faz o script rodar a cada 2 dias (Supabase hiberna após 7 dias de inatividade)
+    - cron: '0 0 */2 * *'
+  workflow_dispatch: # Permite que você rode manualmente se quiser
+
+jobs:
+  ping_supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Table
+        run: |
+          curl -X GET "https://rbygxkbewzknvjjhxdvw.supabase.co/rest/v1/oraculo_mensagens?select=*" \
+          -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}"
